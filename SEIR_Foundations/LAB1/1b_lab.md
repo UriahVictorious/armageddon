@@ -115,6 +115,7 @@ C. Incident Response Proof
 You must verify everything via CLI — not screenshots alone. What? You think this is easy?
 
 7.1 Verify Parameter Store Values
+
 aws ssm get-parameters \
   --names /lab/db/endpoint /lab/db/port /lab/db/name \
   --with-decryption
@@ -124,6 +125,7 @@ Expected:
   Correct DB endpoint and port
 
   7.2 Verify Secrets Manager Value
+  
   aws secretsmanager get-secret-value \
   --secret-id lab/rds/mysql
 
@@ -137,6 +139,7 @@ Expected:
 
 7.3 Verify EC2 Can Read Both Systems
 From EC2:
+
 aws ssm get-parameter --name /lab/db/endpoint
 aws secretsmanager get-secret-value --secret-id lab/rds/mysql
 
@@ -145,6 +148,7 @@ Expected:
   No AccessDeniedException
   
 7.4 Verify CloudWatch Log Group Exists
+
 aws logs describe-log-groups \
   --log-group-name-prefix /aws/ec2/lab-rds-app
 
@@ -158,6 +162,7 @@ Simulate failure (examples):
   Block SG temporarily
 
 Then check logs:
+
 aws logs filter-log-events \
   --log-group-name /aws/ec2/lab-rds-app \
   --filter-pattern "ERROR"
@@ -166,6 +171,7 @@ Expected:
   Explicit DB connection failure messages
   
 7.6 Verify CloudWatch Alarm
+
 aws cloudwatch describe-alarms \
   --alarm-name-prefix lab-db-connection
 
